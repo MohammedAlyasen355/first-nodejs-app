@@ -1,4 +1,6 @@
 const express = require("express");
+const Joi = require("joi");
+const { reset } = require("nodemon");
 const app = express();
 app.use(express.json());
 const port = process.env.PORT || 3000;
@@ -39,6 +41,14 @@ app.get("/api/courses/:id", (req, res) => {
 });
 
 app.post("/api/courses", (req, res) => {
+  const scheme = Joi.object({
+    name: Joi.string().min(3).required(),
+  });
+  const { error } = scheme.validate(req.body);
+  if (error) {
+    res.status(400).send(error.details[0].message);
+    return;
+  }
   const course = { id: courses.length + 1, name: req.body.name };
   courses.push(course);
   // by convention we should return the new obj after adding it .. cause client need the new id
