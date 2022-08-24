@@ -1,10 +1,14 @@
 const express = require("express");
-const Joi = require("joi");
-const { reset } = require("nodemon");
-const bodyValidator = require("./helper");
+const auth = require("./authentication");
 const app = express();
-app.use(express.json());
 const port = process.env.PORT || 3000;
+const bodyValidator = require("./helper");
+
+app.use(express.json());
+// all to navigate the static files in the specific folder
+app.use(express.static("public"));
+// Custom MW 
+app.use(auth);
 
 /* 
 const Logger = require("./logger");
