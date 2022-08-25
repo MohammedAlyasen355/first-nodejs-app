@@ -1,4 +1,6 @@
 const config = require("config");
+const taxDebug = require("debug")("app:tax");
+const dbDebug = require("debug")("app:db");
 const express = require("express");
 const helmet = require("helmet");
 const morgan = require("morgan");
@@ -21,7 +23,18 @@ if (app.get("env") === "development") {
   console.log("Dev Mode");
 }
 
-console.log(config.get("mail.password"));
+try {
+  // working using SET "password":"app_password" SET app_password=123
+  // inside custom-environment-variables file
+  console.log(config.get("mail.password"));
+} catch (error) {
+  console.log(error);
+}
+
+// working using SET DEBUG=app:tax
+taxDebug("Some Tax debugging >>>>");
+// working using SET DEBUG=app:db
+dbDebug("Some DB debugging >>>>");
 
 /* 
 const Logger = require("./logger");
