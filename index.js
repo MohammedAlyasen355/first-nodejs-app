@@ -1,3 +1,4 @@
+const config = require("config");
 const express = require("express");
 const helmet = require("helmet");
 const morgan = require("morgan");
@@ -13,8 +14,14 @@ app.use(express.static("public"));
 app.use(auth);
 // add some headers to the returned response
 app.use(helmet());
-// print logs on every request and it could save to logs file
-app.use(morgan("tiny"));
+
+if (app.get("env") === "development") {
+  // print logs on every request and it could save to logs file
+  app.use(morgan("tiny"));
+  console.log("Dev Mode");
+}
+
+console.log(config.get("mail"));
 
 /* 
 const Logger = require("./logger");
