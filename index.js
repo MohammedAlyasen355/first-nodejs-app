@@ -21,7 +21,7 @@ if (app.get("env") === "development") {
   console.log("Dev Mode");
 }
 
-console.log(config.get("mail"));
+console.log(config.get("mail.password"));
 
 /* 
 const Logger = require("./logger");
