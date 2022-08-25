@@ -1,4 +1,6 @@
 const express = require("express");
+const helmet = require("helmet");
+const morgan = require("morgan");
 const auth = require("./authentication");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -7,8 +9,12 @@ const bodyValidator = require("./helper");
 app.use(express.json());
 // all to navigate the static files in the specific folder
 app.use(express.static("public"));
-// Custom MW 
+// Custom MW
 app.use(auth);
+// add some headers to the returned response
+app.use(helmet());
+// print logs on every request and it could save to logs file
+app.use(morgan("tiny"));
 
 /* 
 const Logger = require("./logger");
