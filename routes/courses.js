@@ -1,56 +1,133 @@
 const bodyValidator = require("../helper");
 const express = require("express");
-const router = express.Router;
+const mongoose = require("mongoose");
+const router = express.Router();
 
-const courses = [
-  { id: 1, name: "Node" },
-  { id: 2, name: "HTML" },
-  { id: 3, name: "CSS" },
-];
+const Course = mongoose.model(
+  "Course",
+  new mongoose.Schema({
+    name: {
+      type: String,
+      required: true,
+      minLength: 5,
+      maxLength: 255,
+    },
+    // author: String,
+    // tags: {
+    //   type: Array,
+    //   validate: {
+    //     validator: (v) => {
+    //       return v && v.length > 0;
+    //     },
+    //     message: "At least one item entered",
+    //   },
+    // },
+    // date: { type: Date, default: Date.now },
+    // isPublished: Boolean,
+    // category: { type: String, enum: ["front", "back"] },
+    // price: {
+    //   type: Number,
+    //   required: function () {
+    //     return this.isPublished;
+    //   },
+    // },
+  })
+);
 
-router.get("/:id", (req, res) => {
-  const course = courses.find((c) => c.id === parseInt(req.params.id));
-  if (!course)
-    return res
-      .status(404)
-      .send("sorry looks like you asked for the wrong course");
-  res.send(course);
+router.get("/", async (req, res) => {
+  try {
+    const courses = await Course.find();
+    res.send(courses);
+  } catch (error) {
+    console.log("get-all " + error);
+  }
 });
 
-router.post("/", (req, res) => {
+// router.get("/:id", (req, res) => {
+//   let course;
+//   Course.findById(req.params.id)
+//     .then((result) => {
+//       if (!result)
+//         return res
+//           .status(404)
+//           .send("sorry looks like you asked for the wrong course");
+//       else {
+//         course = result;
+//         res.send(course);
+//       }
+//     })
+//     .catch((e) => console.log(e)); // courses.find((c) => c.id === parseInt(req.params.id));
+// });
+
+router.get("/:id", async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.id).catch((e) =>
+      console.log("local " + e)
+    );
+    if (!course) return;
+    res.send(course);
+  } catch (e) {
+    console.log("general " + e);
+  }
+});
+
+router.post("/", async (req, res) => {
   const { error } = bodyValidator(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-  const course = { id: courses.length + 1, name: req.body.name };
-  courses.push(course);
-  // by convention we should return the new obj after adding it .. cause client need the new id
+  if (error) {
+    const errorList = [];
+    for (f in error.details) {
+      errorList?.push(error.details[f].message);
+    }
+    return res.status(400).send(errorList);
+  }
+
+  let course = new Course({
+    name: req.body.name,
+    // author: req.body.author,
+    // tags: req.body.tags,
+    // date: req.body.date,
+    // isPublished: req.body.ispublished,
+    // category: req.body.category,
+    // price: req.body.price,
+  });
+
+  course = await course.save();
   res.send(course);
 });
 
-router.put("/:id", (req, res) => {
-  const course = courses.find((c) => c.id === parseInt(req.params.id));
-  if (!course)
-    return res
-      .status(404)
-      .send("sorry looks like you asked for the wrong course");
-
+router.put("/:id", async (req, res) => {
   const { error } = bodyValidator(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  if (error) {
+    const errorList = [];
+    for (f in error.details) {
+      errorList?.push(error.details[f].message);
+    }
+    return res.status(400).send(errorList);
+  }
 
-  course.name = req.body.name;
+  const course = await Course.findByIdAndUpdate(
+    { _id: req.params.id },
+    { name: req.body.name },
+    { new: true }
+  );
 
-  res.send(course);
-});
-
-router.delete("/:id", (req, res) => {
-  const course = courses.find((c) => c.id === parseInt(req.params.id));
   if (!course)
     return res
       .status(404)
       .send("sorry looks like you asked for the wrong course");
 
-  courses.splice(courses.indexOf(course), 1);
   res.send(course);
-  console.log(courses);
+});
+
+router.delete("/:id", async (req, res) => {
+  const course = await Course.findByIdAndDelete(req.params.id);
+
+  if (!course)
+    return res
+      .status(404)
+      .send("sorry looks like you asked for the wrong course");
+
+  res.send(course);
 });
 
 module.exports = router;
