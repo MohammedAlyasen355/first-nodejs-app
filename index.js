@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const config = require("config");
 const taxDebug = require("debug")("app:tax");
 const dbDebug = require("debug")("app:db");
@@ -9,6 +10,11 @@ const courses = require("./routes/courses");
 const home = require("./routes/home");
 const app = express();
 const port = process.env.PORT || 3000;
+
+mongoose
+  .connect("mongodb://localhost/playground")
+  .then(() => console.log("success connecting"))
+  .catch((e) => console.log(e));
 
 app.use(express.json());
 // all to navigate the static files in the specific folder
