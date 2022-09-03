@@ -1,14 +1,20 @@
 const Joi = require("joi");
 
-module.exports = bodyValidator = (body) => {
+courseBodyValidator = (body) => {
   const scheme = Joi.object({
     name: Joi.string().min(5).max(255).required(),
-    // author: Joi.string(),
-    // tags: Joi.array(),
-    // date: Joi.date(),
-    // isPublished: Joi.boolean(),
-    // category: Joi.array(),
-    // price: Joi.number().required(),
   });
   return scheme.validate(body);
 };
+
+customerBodyValidator = (body) => {
+  const scheme = Joi.object({
+    name: Joi.string().min(5).max(255).required(),
+    phone: Joi.string().min(5).max(255).required(),
+    isGold: Joi.boolean(),
+  });
+  return scheme.validate(body);
+};
+
+module.exports.courseBodyValidator = courseBodyValidator;
+module.exports.customerBodyValidator = customerBodyValidator;

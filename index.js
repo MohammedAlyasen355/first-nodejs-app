@@ -7,6 +7,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const auth = require("./middleware/authentication");
 const courses = require("./routes/courses");
+const customers = require("./routes/customers");
 const home = require("./routes/home");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -25,6 +26,7 @@ app.use(auth);
 app.use(helmet());
 
 app.use("/api/courses", courses);
+app.use("/api/customers", customers);
 app.use("/", home);
 
 app.set("view engine", "pug");
