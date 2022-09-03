@@ -16,5 +16,5 @@ customerBodyValidator = (body) => {
   return scheme.validate(body);
 };
 
-module.exports.courseBodyValidator = courseBodyValidator;
-module.exports.customerBodyValidator = customerBodyValidator;
+exports.courseBodyValidator = courseBodyValidator;
+exports.customerBodyValidator = customerBodyValidator;

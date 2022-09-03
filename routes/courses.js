@@ -1,4 +1,4 @@
-const validators = require("../helper");
+const { courseBodyValidator } = require("../helper");
 const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
@@ -72,7 +72,7 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { error } = validators.courseBodyValidator(req.body);
+  const { error } = courseBodyValidator(req.body);
   if (error) {
     const errorList = [];
     for (f in error.details) {

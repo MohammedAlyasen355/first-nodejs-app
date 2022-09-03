@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-const validators = require("../helper");
+const { customerBodyValidator } = require("../helper");
 
 const Customer = mongoose.model(
   "Customer",
@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { error } = validators.customerBodyValidator(req.body);
+  const { error } = customerBodyValidator(req.body);
   if (error) {
     const errorList = [];
     for (f in error.details) {
