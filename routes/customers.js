@@ -1,16 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
 const { customerBodyValidator } = require("../helper");
-
-const Customer = mongoose.model(
-  "Customer",
-  new mongoose.Schema({
-    isGold: { type: Boolean, default: false },
-    name: { type: String, required: true, minlength: 5, maxLength: 255 },
-    phone: { type: String, required: true, minlength: 5, maxLength: 255 },
-  })
-);
+const { Customer } = require("../models/customer"); // relative path later
 
 router.get("/", async (req, res) => {
   try {
@@ -40,3 +31,5 @@ router.post("/", async (req, res) => {
   customer = await customer.save();
   res.send(customer);
 });
+
+module.exports = router;
