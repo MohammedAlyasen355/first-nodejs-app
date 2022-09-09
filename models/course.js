@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { categorySchema } = require("./category");
 
 const Course = mongoose.model(
   "Course",
@@ -8,6 +9,10 @@ const Course = mongoose.model(
       required: true,
       minLength: 5,
       maxLength: 255,
+    },
+    category: {
+      type: categorySchema,
+      required: true,
     },
     // author: String,
     // tags: {

@@ -2,6 +2,7 @@ const { courseBodyValidator } = require("../helper");
 const express = require("express");
 const router = express.Router();
 const { Course } = require("../models/course");
+const { Category } = require("../models/category");
 
 router.get("/", async (req, res) => {
   try {
@@ -50,8 +51,15 @@ router.post("/", async (req, res) => {
     return res.status(400).send(errorList);
   }
 
+  // we expect to get category id no the category obj from front
+  const category = await Category.findById(req.body.categoryid);
+  if (!category) return res.status(400).send("category is not right");
+
+  console.log(category);
+
   let course = new Course({
     name: req.body.name,
+    category: { _id: category._id, name: category.name },
     // author: req.body.author,
     // tags: req.body.tags,
     // date: req.body.date,
@@ -76,7 +84,7 @@ router.put("/:id", async (req, res) => {
 
   const course = await Course.findByIdAndUpdate(
     { _id: req.params.id },
-    { name: req.body.name },
+    { name: req.body.name, category: req.body.category },
     { new: true }
   );
 

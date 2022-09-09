@@ -3,6 +3,7 @@ const Joi = require("joi");
 courseBodyValidator = (body) => {
   const scheme = Joi.object({
     name: Joi.string().min(5).max(255).required(),
+    categoryid: Joi.string().min(5).max(255).required(),
   });
   return scheme.validate(body);
 };
