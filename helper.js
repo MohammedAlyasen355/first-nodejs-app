@@ -16,5 +16,13 @@ customerBodyValidator = (body) => {
   return scheme.validate(body);
 };
 
+categoryBodyValidator = (body) => {
+  const scheme = Joi.object({
+    name: Joi.string().min(5).max(255).required(),
+  });
+  return scheme.validate(body);
+};
+
 exports.courseBodyValidator = courseBodyValidator;
 exports.customerBodyValidator = customerBodyValidator;
+exports.categoryBodyValidator = categoryBodyValidator;
