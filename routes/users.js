@@ -1,4 +1,5 @@
 const express = require("express");
+const bcrypt = require("bcrypt");
 const router = express.Router();
 const { User, userBodyValidator } = require("../models/user"); // relative path later
 
@@ -24,14 +25,20 @@ router.post("/", async (req, res) => {
   let user = await User.findOne({ email: req.body.email });
   if (user) return res.status(400).send("User already registered");
 
+  const salt = await bcrypt.genSalt(10);
+  const hashed = await bcrypt.hash(req.body.password, salt);
+
   user = new User({
     name: req.body.name,
     email: req.body.email,
-    password: req.body.password,
+    password: hashed,
   });
 
   await user.save();
-  res.send(user);
+
+  const { password, ...obj } = user;
+  console.log(obj, user);
+  res.send(obj);
 });
 
 module.exports = router;
