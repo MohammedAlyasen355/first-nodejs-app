@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const _ = require("lodash");
 const router = express.Router();
 const { User, userBodyValidator } = require("../models/user"); // relative path later
-const { required } = require("joi");
 
 router.get("/", async (req, res) => {
   try {
@@ -40,7 +39,8 @@ router.post("/", async (req, res) => {
   // here destructuring the obj showed a lot of the interesting things
   // const { password, ...obj } = user;
   // console.log(obj, user);
-  res.send(_.pick(user, ["name", "email", "_id"]));
+
+  res.header("x-token", user.generateToken()).send(_.pick(user, ["name", "email", "_id"]));
 });
 
 module.exports = router;
