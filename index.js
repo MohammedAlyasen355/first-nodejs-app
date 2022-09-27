@@ -5,12 +5,13 @@ const dbDebug = require("debug")("app:db");
 const express = require("express");
 const helmet = require("helmet");
 const morgan = require("morgan");
-const auth = require("./middleware/authentication");
+const authMW = require("./middleware/authentication");
 const courses = require("./routes/courses");
 const customers = require("./routes/customers");
 const catagories = require("./routes/catagories");
 const users = require("./routes/users");
 const home = require("./routes/home");
+const auth = require("./routes/auth");
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -23,7 +24,7 @@ app.use(express.json());
 // all to navigate the static files in the specific folder
 app.use(express.static("public"));
 // Custom MW
-app.use(auth);
+app.use(authMW);
 // add some headers to the returned response
 app.use(helmet());
 
@@ -31,6 +32,7 @@ app.use("/api/courses", courses);
 app.use("/api/customers", customers);
 app.use("/api/catagories", catagories);
 app.use("/api/users", users);
+app.use("/api/auth", auth);
 app.use("/", home);
 
 app.set("view engine", "pug");
@@ -41,6 +43,12 @@ if (app.get("env") === "development") {
   app.use(morgan("tiny"));
   console.log("Dev Mode");
 }
+
+// if (!config.get("jwt-private-key")) {
+//   console.error("FATAL ERROR: jwt-private-key is not defined");
+//   // 0 main exit success anything else meaning there is an error
+//   process.exit(1);
+// }
 
 try {
   // working using SET "password":"app_password" SET app_password=123
