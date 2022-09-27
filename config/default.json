@@ -1,3 +1,4 @@
 {
-    "name":"TuhMoh Restaurant App"
+    "name":"TuhMoh Restaurant App",
+    "jwt-private-key":""
 }
