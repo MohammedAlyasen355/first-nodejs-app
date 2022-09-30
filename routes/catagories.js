@@ -1,4 +1,5 @@
 const express = require("express");
+const auth = require("../middleware/auth");
 const router = express.Router();
 const { categoryBodyValidator } = require("../helper");
 const { Category } = require("../models/category"); // relative path later
@@ -12,7 +13,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   const { error } = categoryBodyValidator(req.body);
   if (error) {
     const errorList = [];

@@ -5,7 +5,7 @@ const dbDebug = require("debug")("app:db");
 const express = require("express");
 const helmet = require("helmet");
 const morgan = require("morgan");
-const authMW = require("./middleware/authentication");
+const authMW = require("./middleware/auth");
 const courses = require("./routes/courses");
 const customers = require("./routes/customers");
 const catagories = require("./routes/catagories");
@@ -24,7 +24,7 @@ app.use(express.json());
 // all to navigate the static files in the specific folder
 app.use(express.static("public"));
 // Custom MW
-app.use(authMW);
+// app.use(authMW); // it's wrong to implement it here we don't want to auth all routes
 // add some headers to the returned response
 app.use(helmet());
 

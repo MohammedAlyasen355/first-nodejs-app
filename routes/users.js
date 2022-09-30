@@ -1,5 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
+const auth = require("../middleware/auth");
 const _ = require("lodash");
 const router = express.Router();
 const { User, userBodyValidator } = require("../models/user"); // relative path later
@@ -13,7 +14,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   const { error } = userBodyValidator(req.body);
   if (error) {
     const errorList = [];
@@ -40,7 +41,9 @@ router.post("/", async (req, res) => {
   // const { password, ...obj } = user;
   // console.log(obj, user);
 
-  res.header("x-token", user.generateToken()).send(_.pick(user, ["name", "email", "_id"]));
+  res
+    .header("x-token", user.generateToken())
+    .send(_.pick(user, ["name", "email", "_id"]));
 });
 
 module.exports = router;
