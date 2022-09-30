@@ -5,6 +5,11 @@ const _ = require("lodash");
 const router = express.Router();
 const { User, userBodyValidator } = require("../models/user"); // relative path later
 
+router.get("/", auth, async (req, res) => {
+  const user = await User.findById({ _id: req.user._id }).select("-password");
+  res.send(user);
+});
+
 router.get("/", async (req, res) => {
   try {
     const users = await User.find();
