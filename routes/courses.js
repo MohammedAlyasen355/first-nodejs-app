@@ -3,6 +3,8 @@ const express = require("express");
 const router = express.Router();
 const { Course } = require("../models/course");
 const { Category } = require("../models/category");
+const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 
 router.get("/", async (req, res) => {
   try {
@@ -96,7 +98,7 @@ router.put("/:id", async (req, res) => {
   res.send(course);
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [auth, admin], async (req, res) => {
   const course = await Course.findByIdAndDelete(req.params.id);
 
   if (!course)

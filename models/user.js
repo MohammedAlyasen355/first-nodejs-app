@@ -23,13 +23,14 @@ const userSchema = new mongoose.Schema({
     maxLength: 1024,
     required: true,
   },
+  isAdmin: Boolean,
 });
 
 // Information Expert Principle
-// who's know the info the one that will act with it 
+// who's know the info the one that will act with it
 userSchema.methods.generateToken = function () {
   return jwt.sign(
-    { _id: this._id, name: this.name },
+    { _id: this._id, name: this.name, isAdmin: this.isAdmin },
     config.get("jwt-private-key") || "12345"
   );
 };
