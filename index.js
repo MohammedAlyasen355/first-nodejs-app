@@ -6,6 +6,7 @@ const express = require("express");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const authMW = require("./middleware/auth");
+const error = require("./middleware/error");
 const courses = require("./routes/courses");
 const customers = require("./routes/customers");
 const catagories = require("./routes/catagories");
@@ -34,6 +35,7 @@ app.use("/api/catagories", catagories);
 app.use("/api/users", users);
 app.use("/api/auth", auth);
 app.use("/", home);
+app.set(error);
 
 app.set("view engine", "pug");
 app.set("views", "./views");

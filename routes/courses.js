@@ -5,15 +5,15 @@ const { Course } = require("../models/course");
 const { Category } = require("../models/category");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
+const asyncMiddleware = require("../middleware/async");
 
-router.get("/", async (req, res) => {
-  try {
+router.get(
+  "/",
+  asyncMiddleware(async (req, res) => {
     const courses = await Course.find();
     res.send(courses);
-  } catch (error) {
-    console.log("get-all " + error);
-  }
-});
+  })
+);
 
 // router.get("/:id", (req, res) => {
 //   let course;
