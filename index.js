@@ -7,12 +7,6 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const authMW = require("./middleware/auth");
 const error = require("./middleware/error");
-const courses = require("./routes/courses");
-const customers = require("./routes/customers");
-const catagories = require("./routes/catagories");
-const users = require("./routes/users");
-const home = require("./routes/home");
-const auth = require("./routes/auth");
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -29,12 +23,6 @@ app.use(express.static("public"));
 // add some headers to the returned response
 app.use(helmet());
 
-app.use("/api/courses", courses);
-app.use("/api/customers", customers);
-app.use("/api/catagories", catagories);
-app.use("/api/users", users);
-app.use("/api/auth", auth);
-app.use("/", home);
 app.set(error);
 
 app.set("view engine", "pug");
