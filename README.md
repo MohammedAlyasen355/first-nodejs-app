@@ -1,7 +1,8 @@
 # first-nodejs-app
 Start learning Node.js.
 
-Here in this repo I'm working on covering the next topic:
+Here in this repo I'm working on covering the next topics:
+
 0. Websites you may like
 1. Getting Started
 2. Node Module System
