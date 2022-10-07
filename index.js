@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+require("express-async-errors");
 const config = require("config");
 const taxDebug = require("debug")("app:tax");
 const dbDebug = require("debug")("app:db");
@@ -7,13 +8,21 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const authMW = require("./middleware/auth");
 const error = require("./middleware/error");
+const winston = require("winston");
+require("winston-mongodb");
 const app = express();
 const port = process.env.PORT || 3000;
+require("./startup/routes")(app);
+
+winston.add(new winston.transports.File({ filename: "logfile.log" }));
+winston.add(
+  new winston.transports.MongoDB({ db: "mongodb://localhost/playground" })
+);
 
 mongoose
   .connect("mongodb://localhost/playground")
   .then(() => console.log("success connecting"))
-  .catch((e) => console.log(e));
+  .catch((err) => winston.error(err.message, err));
 
 app.use(express.json());
 // all to navigate the static files in the specific folder
@@ -22,8 +31,7 @@ app.use(express.static("public"));
 // app.use(authMW); // it's wrong to implement it here we don't want to auth all routes
 // add some headers to the returned response
 app.use(helmet());
-
-app.set(error);
+app.use(error);
 
 app.set("view engine", "pug");
 app.set("views", "./views");
