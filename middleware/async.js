@@ -1,9 +1,9 @@
 module.exports = function (handler) {
-  return (req, res, next) => {
+  return async (req, res, next) => {
     try {
-      handler(req, res);
-    } catch (error) {
-      next(error);
+      await handler(req, res);
+    } catch (ex) {
+      next(ex);
     }
   };
 };
