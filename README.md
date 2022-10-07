@@ -1,24 +1,24 @@
 # first-nodejs-app
 Start learning Node.js.
 
-Here in this repo I'm working on covering the next topics:
+Here in this repo, I'm working on covering the next topics:
 
 0. Websites you may like
 1. Getting Started
 2. Node Module System
 3. Node Package Manager
-4. Building RESTful API's Using Express
+4. Building RESTful APIs Using Express
 5. Express- Advanced Topics
 6. Asynchronous JavaScript
 7. CRUD Operations Using Mongoose
 8. Mongo - Data Validation
 9. Mongoose- Modeling Relationships between Connected Data
-10. Authentication and Authorization
-11. Handling and Logging Errors
-12. Unit Testing
-13. Integration Testing
-14. Test-Driven Development
-15. Deployment
+ 10. Authentication and Authorization
+ 11. Handling and Logging Errors
+ 12. Unit Testing
+ 13. Integration Testing
+ 14. Test-Driven Development
+ 15. Deployment
 
 
 [![Express Logo](https://i.cloudup.com/zfY6lL7eFa-3000x3000.png)](http://expressjs.com/)
