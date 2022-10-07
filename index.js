@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 require("express-async-errors");
 const config = require("config");
 const taxDebug = require("debug")("app:tax");
@@ -12,17 +11,14 @@ const winston = require("winston");
 require("winston-mongodb");
 const app = express();
 const port = process.env.PORT || 3000;
+
 require("./startup/routes")(app);
+require("./startup/db")();
 
 winston.add(new winston.transports.File({ filename: "logfile.log" }));
 winston.add(
   new winston.transports.MongoDB({ db: "mongodb://localhost/playground" })
 );
-
-mongoose
-  .connect("mongodb://localhost/playground")
-  .then(() => console.log("success connecting"))
-  .catch((err) => winston.error(err.message, err));
 
 app.use(express.json());
 // all to navigate the static files in the specific folder
