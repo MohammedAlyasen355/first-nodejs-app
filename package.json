@@ -24,6 +24,7 @@
     "nodemon": "^2.0.19",
     "pug": "^3.0.2",
     "rc": "^1.2.8",
-    "winston": "^3.8.2"
+    "winston": "^3.8.2",
+    "winston-mongodb": "^5.1.0"
   }
 }
