@@ -5,15 +5,13 @@ const { Course } = require("../models/course");
 const { Category } = require("../models/category");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
-const asyncMiddleware = require("../middleware/async");
+// const asyncMiddleware = require("../middleware/async");
 
-router.get(
-  "/",
-  asyncMiddleware(async (req, res) => {
-    const courses = await Course.find();
-    res.send(courses);
-  })
-);
+router.get("/", async (req, res) => {
+  throw new Error("can't get courses");
+  const courses = await Course.find();
+  res.send(courses);
+});
 
 // router.get("/:id", (req, res) => {
 //   let course;
