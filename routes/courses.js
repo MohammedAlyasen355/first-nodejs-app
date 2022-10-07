@@ -8,7 +8,6 @@ const admin = require("../middleware/admin");
 // const asyncMiddleware = require("../middleware/async");
 
 router.get("/", async (req, res) => {
-  throw new Error("can't get courses");
   const courses = await Course.find();
   res.send(courses);
 });

@@ -5,26 +5,19 @@ const dbDebug = require("debug")("app:db");
 const express = require("express");
 const helmet = require("helmet");
 const morgan = require("morgan");
-const authMW = require("./middleware/auth");
 const error = require("./middleware/error");
-const winston = require("winston");
 require("winston-mongodb");
 const app = express();
 const port = process.env.PORT || 3000;
 
 require("./startup/routes")(app);
 require("./startup/db")();
-
-winston.add(new winston.transports.File({ filename: "logfile.log" }));
-winston.add(
-  new winston.transports.MongoDB({ db: "mongodb://localhost/playground" })
-);
+require("./startup/logging")();
+require("./startup/config")();
 
 app.use(express.json());
 // all to navigate the static files in the specific folder
 app.use(express.static("public"));
-// Custom MW
-// app.use(authMW); // it's wrong to implement it here we don't want to auth all routes
 // add some headers to the returned response
 app.use(helmet());
 app.use(error);
@@ -37,12 +30,6 @@ if (app.get("env") === "development") {
   app.use(morgan("tiny"));
   console.log("Dev Mode");
 }
-
-// if (!config.get("jwt-private-key")) {
-//   console.error("FATAL ERROR: jwt-private-key is not defined");
-//   // 0 main exit success anything else meaning there is an error
-//   process.exit(1);
-// }
 
 try {
   // working using SET "password":"app_password" SET app_password=123
