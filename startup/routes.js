@@ -5,10 +5,10 @@ const users = require("../routes/users");
 const home = require("../routes/home");
 const auth = require("../routes/auth");
 const helmet = require("helmet");
-const error = require("./middleware/error");
+const error = require("../middleware/error");
 const morgan = require("morgan");
 
-module.exports = function (app) {
+module.exports = function (app, express) {
   app.use(express.json());
   // all to navigate the static files in the specific folder
   app.use(express.static("public"));

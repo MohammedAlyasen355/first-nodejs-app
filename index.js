@@ -6,7 +6,7 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
 
-require("./startup/routes")(app);
+require("./startup/routes")(app, express);
 require("./startup/db")();
 require("./startup/logging")();
 require("./startup/config")();
@@ -30,11 +30,11 @@ logger.log("log"); // announce the party
 */
 
 // example: http://localhost:3000/api/posts/2018/1?queryParam=10
-app.get("/api/posts/:year/:month", (req, res) => {
-  // notice that the query didn't define it param name
-  // TODO: is there a syntax to reserve the the query param name
-  res.send([req.params, req.query]);
-});
+// app.get("/api/posts/:year/:month", (req, res) => {
+//   // notice that the query didn't define it param name
+//   // TODO: is there a syntax to reserve the the query param name
+//   res.send([req.params, req.query]);
+// });
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
