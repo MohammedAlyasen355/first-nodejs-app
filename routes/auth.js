@@ -5,15 +5,7 @@ const router = express.Router();
 const { User } = require("../models/user"); // relative path later
 const { authBodyValidator } = require("../models/auth"); // relative path later
 
-router.get("/", async (req, res) => {
-  try {
-    const users = await User.find();
-    res.send(users);
-  } catch (error) {
-    console.log("get-all " + error);
-  }
-});
-
+// renew token 
 router.post("/", async (req, res) => {
   const { error } = authBodyValidator(req.body);
   if (error) {
