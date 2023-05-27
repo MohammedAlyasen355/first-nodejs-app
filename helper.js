@@ -24,6 +24,17 @@ categoryBodyValidator = (body) => {
   return scheme.validate(body);
 };
 
+productBodyValidator = (body) => {
+  const scheme = Joi.object({
+    name: Joi.string().min(5).max(255).required(),
+    categoryid: Joi.string().min(5).max(255).required(),
+    price: Joi.number(),
+    quantity: Joi.number(),
+  });
+  return scheme.validate(body);
+};
+
 exports.courseBodyValidator = courseBodyValidator;
 exports.customerBodyValidator = customerBodyValidator;
 exports.categoryBodyValidator = categoryBodyValidator;
+exports.productBodyValidator = productBodyValidator;
