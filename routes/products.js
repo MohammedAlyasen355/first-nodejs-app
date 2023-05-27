@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { productBodyValidator } = require("../helper");
 const { Product } = require("../models/product"); // relative path later
+const { Category } = require("../models/category");
 
 router.get("/", async (req, res) => {
   try {
@@ -22,10 +23,15 @@ router.post("/", async (req, res) => {
     return res.status(400).send(errorList);
   }
 
+  // we expect to get category id no the category obj from front
+  const category = await Category.findById(req.body.categoryid);
+  if (!category) return res.status(400).send("category is not right");
+
   let product = new Product({
     name: req.body.name,
-    phone: req.body.phone,
-    isGold: req.body.isGold,
+    price: req.body.price,
+    quantity: req.body.quantity,
+    category: { _id: category._id, name: category.name },
   });
 
   product = await product.save();
