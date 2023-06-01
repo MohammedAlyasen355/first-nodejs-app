@@ -8,7 +8,7 @@ const products = require("../routes/products");
 const helmet = require("helmet");
 const error = require("../middleware/error");
 const morgan = require("morgan");
-
+const students = require("../routes/students");
 module.exports = function (app, express) {
   app.use(express.json());
   // all to navigate the static files in the specific folder
@@ -27,6 +27,7 @@ module.exports = function (app, express) {
   app.use("/api/catagories", catagories);
   app.use("/api/users", users);
   app.use("/api/auth", auth);
+  app.use("/api/students", students);
   app.use("/api/products", products);
   app.use("/", home);
 };

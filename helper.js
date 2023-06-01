@@ -33,8 +33,16 @@ productBodyValidator = (body) => {
   });
   return scheme.validate(body);
 };
+studentBodyValidator = (body) => {
+  const scheme = Joi.object({
+    name: Joi.string().min(5).max(255).required(),
+    lastname: Joi.string().min(5).max(255).required()
+  });
+  return scheme.validate(body);
+};
 
 exports.courseBodyValidator = courseBodyValidator;
 exports.customerBodyValidator = customerBodyValidator;
 exports.categoryBodyValidator = categoryBodyValidator;
 exports.productBodyValidator = productBodyValidator;
+exports.studentBodyValidator = studentBodyValidator;
