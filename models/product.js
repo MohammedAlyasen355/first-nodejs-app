@@ -17,7 +17,9 @@ const Product = mongoose.model(
     price:{
       type: Number,
       required: true
-    }
+    },
+    
+
   })
 );
 
